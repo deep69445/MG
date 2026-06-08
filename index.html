@@ -100,6 +100,29 @@ nav {
   .hamburger i { display: block; height: 1.5px; background: var(--muted); border-radius: 1px; transition: 0.3s; }
 }
 
+/* ─── MOBILE DRAWER OVERLAY ─── */
+.mobile-drawer {
+  position: fixed; top: 0; right: -100%; width: 100%; max-width: 320px; height: 100vh;
+  background: rgba(13, 13, 24, 0.96); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  z-index: 300; box-shadow: -10px 0 40px rgba(0,0,0,0.6);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 24px;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-drawer.open { right: 0; }
+.drawer-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
+.drawer-close { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; transition: color 0.2s; }
+.drawer-close:hover { color: #fff; }
+.drawer-links { list-style: none; display: flex; flex-direction: column; gap: 24px; }
+.drawer-links a { font-family: var(--fd); font-size: 20px; font-weight: 600; color: var(--text); text-decoration: none; transition: color 0.2s; }
+.drawer-links a:hover { color: var(--accent2); }
+.drawer-cta { margin-top: auto; text-align: center; }
+.mobile-overlay-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+  z-index: 299; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+}
+.mobile-overlay-backdrop.open { opacity: 1; pointer-events: auto; }
+
 /* ─── HERO ─── */
 .hero {
   min-height: 100vh;
@@ -695,7 +718,27 @@ footer {
 </head>
 <body>
 
-<!-- NAV -->
+<div class="mobile-overlay-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">M</div>
+      MAKEDIGITAL
+    </a>
+    <button class="drawer-close" id="drawerClose">&times;</button>
+  </div>
+  <ul class="drawer-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <div class="drawer-cta">
+    <a href="#contact" class="btn btn-primary" style="width: 100%; justify-content: center;">Book a Call</a>
+  </div>
+</div>
+
 <nav>
   <a href="#" class="nav-logo">
     <div class="nav-logo-mark">M</div>
@@ -709,13 +752,12 @@ footer {
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#contact" class="nav-cta">Book a Call</a></li>
   </ul>
-  <div class="nav-mobile-toggle">
+  <div class="nav-mobile-toggle" id="drawerTrigger">
     <span>Menu</span>
     <div class="hamburger"><i></i><i></i></div>
   </div>
 </nav>
 
-<!-- PAGE LINKS BAR (simulates multi-page nav) -->
 <div class="page-links-bar" style="position:fixed; top:64px; left:0; right:0; z-index:100; background:rgba(8,8,16,0.9); backdrop-filter:blur(12px);">
   <a href="index.html" class="page-link active"><span class="page-link-dot"></span>Home</a>
   <a href="portfolio.html" class="page-link">Portfolio</a>
@@ -725,7 +767,6 @@ footer {
   <a href="contact.html" class="page-link">Contact</a>
 </div>
 
-<!-- HERO -->
 <section class="hero" style="padding-top:160px;">
   <div class="hero-bg">
     <div class="orb orb1"></div>
@@ -765,7 +806,6 @@ footer {
   </div>
 </section>
 
-<!-- TRUST BAR -->
 <div class="trust-bar">
   <div class="trust-inner">
     <span class="trust-label">Trusted By</span>
@@ -780,7 +820,6 @@ footer {
   </div>
 </div>
 
-<!-- METRICS -->
 <section>
   <div class="container">
     <p class="eyebrow">Numbers Backed By Work</p>
@@ -811,7 +850,6 @@ footer {
   </div>
 </section>
 
-<!-- PROBLEM / SOLUTION -->
 <section style="background:var(--bg2);">
   <div class="container">
     <p class="eyebrow">Why Stores Fail</p>
@@ -837,7 +875,6 @@ footer {
   </div>
 </section>
 
-<!-- PORTFOLIO -->
 <section id="work">
   <div class="container">
     <p class="eyebrow">Portfolio</p>
@@ -896,7 +933,6 @@ footer {
   </div>
 </section>
 
-<!-- SERVICES -->
 <section id="services" class="services-bg">
   <div class="container">
     <p class="eyebrow">Services</p>
@@ -913,7 +949,6 @@ footer {
   </div>
 </section>
 
-<!-- COMPARISON -->
 <section>
   <div class="container">
     <p class="eyebrow">Why Choose Us</p>
@@ -947,7 +982,6 @@ footer {
   </div>
 </section>
 
-<!-- SKILLS -->
 <section style="background:var(--bg2);">
   <div class="container">
     <p class="eyebrow">Expertise</p>
@@ -973,7 +1007,6 @@ footer {
   </div>
 </section>
 
-<!-- TEAM -->
 <section id="team">
   <div class="container">
     <p class="eyebrow">The Studio</p>
@@ -998,7 +1031,6 @@ footer {
   </div>
 </section>
 
-<!-- PROCESS -->
 <section id="process" class="process-bg">
   <div class="container">
     <p class="eyebrow">Our Process</p>
@@ -1017,7 +1049,6 @@ footer {
   </div>
 </section>
 
-<!-- DELIVERABLES -->
 <section>
   <div class="container">
     <p class="eyebrow">Every Store Includes</p>
@@ -1036,7 +1067,6 @@ footer {
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section id="reviews" style="background:var(--bg2);">
   <div class="container">
     <p class="eyebrow">Client Reviews</p>
@@ -1071,7 +1101,6 @@ footer {
   </div>
 </section>
 
-<!-- FAQ -->
 <section>
   <div class="container">
     <p class="eyebrow">FAQ</p>
@@ -1088,7 +1117,6 @@ footer {
   </div>
 </section>
 
-<!-- TRANSPARENCY -->
 <section style="background:var(--bg2);">
   <div class="container">
     <p class="eyebrow">Our Commitments</p>
@@ -1103,7 +1131,6 @@ footer {
   </div>
 </section>
 
-<!-- AUDIT -->
 <div class="audit-wrap" id="contact">
   <div class="audit-box">
     <p class="eyebrow" style="margin-bottom:14px;">Free Shopify Audit</p>
@@ -1113,7 +1140,6 @@ footer {
   </div>
 </div>
 
-<!-- FINAL CTA -->
 <section class="final-cta">
   <h2 class="final-title">Ready To Build<br>Your Shopify Store?</h2>
   <p class="final-sub">Let's create a store that looks premium and performs even better.</p>
@@ -1123,7 +1149,6 @@ footer {
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div>
@@ -1173,6 +1198,34 @@ footer {
 </footer>
 
 <script>
+/* Mobile Drawer Logic */
+const drawerTrigger = document.getElementById('drawerTrigger');
+const mobileDrawer = document.getElementById('mobileDrawer');
+const drawerClose = document.getElementById('drawerClose');
+const drawerBackdrop = document.getElementById('drawerBackdrop');
+const drawerLinks = document.querySelectorAll('.drawer-links a, .drawer-cta a');
+
+function openDrawer() {
+  mobileDrawer.classList.add('open');
+  drawerBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeDrawer() {
+  mobileDrawer.classList.remove('open');
+  drawerBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+if (drawerTrigger) drawerTrigger.addEventListener('click', openDrawer);
+if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+
+// Close drawer dynamically when any internal jump-link is tapped
+drawerLinks.forEach(link => {
+  link.addEventListener('click', closeDrawer);
+});
+
 /* Subtle 3D tilt on cards — only on non-touch */
 if (!('ontouchstart' in window)) {
   document.querySelectorAll('.card-3d, .metric-card, .testi-card, .ps-card, .port-card').forEach(card => {
